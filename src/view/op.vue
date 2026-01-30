@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <router-view />
+    <div>OPPO：业务暂未开始</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app",
+  name: "Op",
 };
 </script>
 
 <style>
-#app{
-  padding: 50px;
-}
 </style>
