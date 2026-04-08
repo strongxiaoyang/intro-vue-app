@@ -196,7 +196,6 @@
               name="Common_contacts"
             ></el-checkbox>
             <el-checkbox label="温度" name="Temperature"></el-checkbox>
-            <el-checkbox label="血压" name="Blood_pressure"></el-checkbox>
             <el-checkbox label="日历" name="calendar"></el-checkbox>
             <el-checkbox label="手电筒" name="Flashlight"></el-checkbox>
             <el-checkbox
@@ -228,6 +227,8 @@
             <el-checkbox label="星期" name="week"></el-checkbox>
             <el-checkbox label="上下午" name="ampm"></el-checkbox>
             <el-checkbox label="天气" name="weather_change"></el-checkbox>
+            <el-checkbox label="睡眠" name="sleep_change"></el-checkbox>
+            <el-checkbox label="自定义图标" name="div_change"></el-checkbox>
           </el-checkbox-group>
           <!-- 长按编辑区间 -->
           <div v-if="TXTForm.changeControl0">
@@ -455,6 +456,47 @@
               ></el-button>
             </div>
           </div>
+          <!-- 睡眠区间 -->
+          <div v-if="TXTForm.changeControl5">
+            <div>睡眠区间选择：</div>
+            <div
+              v-for="(x, i) in TXTForm.changeRulesSleep"
+              :key="i"
+              style="
+                display: inline-block;
+                margin-right: 20px;
+                margin-bottom: 10px;
+              "
+            >
+              <el-input-number
+                v-model="x.min"
+                :min="0"
+                :max="100"
+              ></el-input-number
+              ><span style="margin-left: 15px; margin-right: 15px">~</span>
+              <el-input-number
+                v-model="x.max"
+                :min="0"
+                :max="100"
+              ></el-input-number>
+            </div>
+            <div style="display: inline-block">
+              <el-button
+                type="success"
+                class="el-icon-plus"
+                circle
+                @click="addSleepChange(TXTForm)"
+                v-if="TXTForm.changeRulesSleep.length < 10"
+              ></el-button>
+              <el-button
+                type="info"
+                class="el-icon-minus"
+                circle
+                @click="delSleepChange(TXTForm)"
+                v-if="TXTForm.changeRulesSleep.length > 1"
+              ></el-button>
+            </div>
+          </div>
         </el-form-item>
       </div>
       <!-- 差异性模块 -->
@@ -671,7 +713,6 @@
                 name="Common_contacts"
               ></el-checkbox>
               <el-checkbox label="温度" name="Temperature"></el-checkbox>
-              <el-checkbox label="血压" name="Blood_pressure"></el-checkbox>
               <el-checkbox label="日历" name="calendar"></el-checkbox>
               <el-checkbox label="手电筒" name="Flashlight"></el-checkbox>
               <el-checkbox
@@ -703,6 +744,8 @@
               <el-checkbox label="星期" name="week"></el-checkbox>
               <el-checkbox label="上下午" name="ampm"></el-checkbox>
               <el-checkbox label="天气" name="weather_change"></el-checkbox>
+              <el-checkbox label="睡眠" name="sleep_change"></el-checkbox>
+              <el-checkbox label="自定义图标" name="div_change"></el-checkbox>
             </el-checkbox-group>
             <!-- 长按编辑区间 -->
             <div v-if="TXTForm.changeControl0">
@@ -930,6 +973,47 @@
                 ></el-button>
               </div>
             </div>
+            <!-- 睡眠区间 -->
+            <div v-if="item.changeControl5">
+              <div>睡眠区间选择：</div>
+              <div
+                v-for="(x, i) in item.changeRulesSleep"
+                :key="i"
+                style="
+                  display: inline-block;
+                  margin-right: 20px;
+                  margin-bottom: 10px;
+                "
+              >
+                <el-input-number
+                  v-model="x.min"
+                  :min="0"
+                  :max="100"
+                ></el-input-number
+                ><span style="margin-left: 15px; margin-right: 15px">~</span>
+                <el-input-number
+                  v-model="x.max"
+                  :min="0"
+                  :max="100"
+                ></el-input-number>
+              </div>
+              <div style="display: inline-block">
+                <el-button
+                  type="success"
+                  class="el-icon-plus"
+                  circle
+                  @click="addSleepChange(item)"
+                  v-if="item.changeRulesSleep.length < 10"
+                ></el-button>
+                <el-button
+                  type="info"
+                  class="el-icon-minus"
+                  circle
+                  @click="delSleepChange(item)"
+                  v-if="item.changeRulesSleep.length > 1"
+                ></el-button>
+              </div>
+            </div>
           </el-form-item>
         </div>
       </div>
@@ -956,10 +1040,7 @@
             label="小米表盘watch 5"
             name="小米表盘watch 5"
           ></el-checkbox>
-          <el-checkbox
-            label="小米表盘P62"
-            name="小米表盘P62"
-          ></el-checkbox>
+          <el-checkbox label="小米表盘P62" name="小米表盘P62"></el-checkbox>
           <div>方盘</div>
           <el-checkbox label="红米手表4" name="红米手表4"></el-checkbox>
           <el-checkbox label="红米手表5" name="红米手表5"></el-checkbox>
@@ -1071,14 +1152,17 @@ export default {
         functionOptions2: [],
         functionOptions3: [],
         functionOptions4: [],
+        functionOptions5: [],
         changeControl0: false,
         changeControl1: false,
         changeControl2: false,
         changeControl3: false,
         changeControl4: false,
+        changeControl5: false,
         changeRulesUser: 1,
         changeRulesTime: [{ min: "凌晨", max: "凌晨" }],
         changeRulesPressure: [{ min: 0, max: 0 }],
+        changeRulesSleep: [{ min: 0, max: 0 }],
         changeRulesHour: [{ min: "子时", max: "子时" }],
         changeRulesWeek: [{ min: "周日", max: "周日" }],
         changeRulesAmpm: false,
@@ -1107,6 +1191,7 @@ export default {
       Form.changeControl2 = Form.functionOptions4.includes("压力");
       Form.changeControl3 = Form.functionOptions4.includes("时辰");
       Form.changeControl4 = Form.functionOptions4.includes("星期");
+      Form.changeControl5 = Form.functionOptions4.includes("睡眠");
       if (Form.changeControl0 == true) {
         console.log();
       } else {
@@ -1131,6 +1216,11 @@ export default {
         console.log();
       } else {
         Form.changeRulesWeek = [{ min: "周日", max: "周日" }];
+      }
+      if (Form.changeControl5 == true) {
+        console.log();
+      } else {
+        Form.changeRulesSleep = [{ min: 0, max: 0 }];
       }
     },
     // 时间段区间控制
@@ -1157,12 +1247,24 @@ export default {
     delPressureChange(Form) {
       Form.changeRulesPressure.splice(Form.changeRulesPressure.length - 1, 1);
     },
+    // 睡眠区间控制
+    addSleepChange(Form) {
+      let obj = {
+        group: Form.changeRulesSleep.length + 1,
+        min: 0,
+        max: 0,
+      };
+      Form.changeRulesSleep.push(obj);
+    },
+    delSleepChange(Form) {
+      Form.changeRulesSleep.splice(Form.changeRulesSleep.length - 1, 1);
+    },
     // 时辰区间控制
     addHourChange(Form) {
       let obj = {
         group: Form.changeRulesHour.length + 1,
-        min: "凌晨",
-        max: "凌晨",
+        min: "子时",
+        max: "子时",
       };
       Form.changeRulesHour.push(obj);
     },
@@ -1207,9 +1309,11 @@ export default {
           changeControl2: this.TXTForm.changeControl2,
           changeControl3: this.TXTForm.changeControl3,
           changeControl4: this.TXTForm.changeControl4,
+          changeControl5: this.TXTForm.changeControl5,
           changeRulesUser: this.TXTForm.changeRulesUser,
           changeRulesTime: this.TXTForm.changeRulesTime,
           changeRulesPressure: this.TXTForm.changeRulesPressure,
+          changeRulesSleep: this.TXTForm.changeRulesSleep,
           changeRulesHour: this.TXTForm.changeRulesHour,
           changeRulesWeek: this.TXTForm.changeRulesWeek,
           changeRulesAmpm: this.TXTForm.changeRulesWeek,
@@ -1266,9 +1370,11 @@ export default {
         changeControl2: this.TXTForm.changeControl2,
         changeControl3: this.TXTForm.changeControl3,
         changeControl4: this.TXTForm.changeControl4,
+        changeControl5: this.TXTForm.changeControl5,
         changeRulesUser: this.TXTForm.changeRulesUser,
         changeRulesTime: this.TXTForm.changeRulesTime,
         changeRulesPressure: this.TXTForm.changeRulesPressure,
+        changeRulesSleep: this.TXTForm.changeRulesSleep,
         changeRulesHour: this.TXTForm.changeRulesHour,
         changeRulesWeek: this.TXTForm.changeRulesWeek,
         changeRulesAmpm: this.TXTForm.changeRulesWeek,
@@ -1290,9 +1396,11 @@ export default {
           changeControl2: this.difArr[i].changeControl2,
           changeControl3: this.difArr[i].changeControl3,
           changeControl4: this.difArr[i].changeControl4,
+          changeControl5: this.difArr[i].changeControl5,
           changeRulesUser: this.difArr[i].changeRulesUser,
           changeRulesTime: this.difArr[i].changeRulesTime,
           changeRulesPressure: this.difArr[i].changeRulesPressure,
+          changeRulesSleep: this.difArr[i].changeRulesSleep,
           changeRulesHour: this.difArr[i].changeRulesHour,
           changeRulesWeek: this.difArr[i].changeRulesWeek,
           changeRulesAmpm: this.difArr[i].changeRulesWeek,
@@ -1319,9 +1427,11 @@ export default {
           changeControl2: this.TXTForm.changeControl2,
           changeControl3: this.TXTForm.changeControl3,
           changeControl4: this.TXTForm.changeControl4,
+          changeControl5: this.TXTForm.changeControl5,
           changeRulesUser: this.TXTForm.changeRulesUser,
           changeRulesTime: this.TXTForm.changeRulesTime,
           changeRulesPressure: this.TXTForm.changeRulesPressure,
+          changeRulesSleep: this.TXTForm.changeRulesSleep,
           changeRulesHour: this.TXTForm.changeRulesHour,
           changeRulesWeek: this.TXTForm.changeRulesWeek,
           changeRulesAmpm: this.TXTForm.changeRulesWeek,
@@ -1442,6 +1552,28 @@ export default {
               "张图" +
               "；\n";
           }
+          if (content.contentList[i].functionOptions4.includes("睡眠")) {
+            this.temp = this.temp + "当睡眠值为空状态，";
+            for (
+              let o = 0;
+              o < content.contentList[i].changeRulesSleep.length;
+              o++
+            ) {
+              this.temp =
+                this.temp +
+                content.contentList[i].changeRulesSleep[o].min +
+                "%-" +
+                content.contentList[i].changeRulesSleep[o].max +
+                "%，";
+            }
+            this.temp = this.temp.slice(0, -1);
+            this.temp =
+              this.temp +
+              "时进行换图，共" +
+              (content.contentList[i].changeRulesSleep.length + 1) +
+              "张图" +
+              "；\n";
+          }
           if (content.contentList[i].functionOptions4.includes("时辰")) {
             if (content.contentList[i].changeRulesHour.length == 12) {
               this.temp =
@@ -1463,10 +1595,11 @@ export default {
                   "为一张图，";
               }
               this.temp = this.temp.slice(0, -1);
+              console.log(content.contentList[i].changeRulesHour);
               this.temp =
                 this.temp +
                 "共" +
-                content.contentList[i].changeRulesPressure.length +
+                content.contentList[i].changeRulesHour.length +
                 "张图" +
                 "；\n";
             }
@@ -1505,6 +1638,10 @@ export default {
           if (content.contentList[i].functionOptions4.includes("天气")) {
             this.temp =
               this.temp + "根据不同天气感知变换场景图片，共11张图片" + "；\n";
+          }
+          if (content.contentList[i].functionOptions4.includes("自定义图标")) {
+            this.temp =
+              this.temp + "长按表盘可切换自定义跳转图标" + "；\n";
           }
         }
         // 功能介绍模块
@@ -1586,15 +1723,15 @@ export default {
           "设计并制作";
         // 换行
         this.temp = this.temp + "\n\n";
-        if (
-          this.temp.length -
-            content.contentList[i].size.length -
-            content.contentList[i].dialName.length -
-            9 >
-          250
-        ) {
-          this.$message(content.contentList[i].size + "字数超出250");
-        }
+        // if (
+        //   this.temp.length -
+        //     content.contentList[i].size.length - 
+        //     content.contentList[i].dialName.length -
+        //     9 >
+        //   250
+        // ) {
+        //   this.$message(content.contentList[i].size + "字数超出250");
+        // }
         this.txtcontent = this.txtcontent + this.temp;
       }
       this.exportText(this.txtcontent);
