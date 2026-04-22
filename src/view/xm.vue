@@ -1667,9 +1667,9 @@ export default {
           }
         }
         this.temp = this.temp.slice(0, -1) + "；\n";
-        // 功能介绍---功能跳转
+        // 功能介绍---跳转功能
         if (content.contentList[i].size != "小米手环8") {
-          this.temp = this.temp + "功能跳转：";
+          this.temp = this.temp + "跳转功能：";
           for (
             let o = 0;
             o < content.contentList[i].functionOptions2.length;
