@@ -1046,6 +1046,7 @@
           <el-checkbox label="红米手表5" name="红米手表5"></el-checkbox>
           <el-checkbox label="小米手环8pro" name="小米手环8pro"></el-checkbox>
           <el-checkbox label="小米手环9pro" name="小米手环9pro"></el-checkbox>
+          <el-checkbox label="p67" name="p67"></el-checkbox>
           <el-checkbox label="红米手表P65" name="红米手表P65"></el-checkbox>
           <div>跑道环</div>
           <el-checkbox label="小米手环8" name="小米手环8"></el-checkbox>
