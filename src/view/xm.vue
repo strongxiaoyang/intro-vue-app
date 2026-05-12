@@ -75,6 +75,7 @@
             <el-checkbox label="WIFI状态" name="WIFIStatus"></el-checkbox>
             <el-checkbox label="充电状态" name="ChargingState"></el-checkbox>
             <el-checkbox label="屏幕锁定" name="ScreenLock"></el-checkbox>
+            <el-checkbox label="充电特效" name="Charging"></el-checkbox>
           </el-checkbox-group>
           <div style="font-size: 14px; color: #606266; line-height: 40px">
             跳转功能：
@@ -583,6 +584,7 @@
               <el-checkbox label="WIFI状态" name="WIFIStatus"></el-checkbox>
               <el-checkbox label="充电状态" name="ChargingState"></el-checkbox>
               <el-checkbox label="屏幕锁定" name="ScreenLock"></el-checkbox>
+              <el-checkbox label="充电特效" name="Charging"></el-checkbox>
             </el-checkbox-group>
             <div style="font-size: 14px; color: #606266; line-height: 40px">
               跳转功能：
@@ -1695,25 +1697,60 @@ export default {
           // 功能介绍---其他
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")
+            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
               this.temp +
-              "其他：该表盘温度仅支持摄氏度不支持华氏度；心率进度满格为220，且不受最大最小心率影响；\n";
+              "其他：该表盘温度仅支持摄氏度不支持华氏度；心率进度满格为220，且不受最大最小心率影响；充电时显示充电特效；\n";
           }
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            !content.contentList[i].functionOptions2.includes("心率进度条")
+            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
               this.temp + "其他：该表盘温度仅支持摄氏度不支持华氏度；\n";
           }
           if (
             !content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")
+            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
               this.temp + "其他：心率进度满格为220，且不受最大最小心率影响；\n";
+          }
+          if (
+            !content.contentList[i].functionOptions2.includes("温度") &&
+            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions1.includes("充电特效")
+          ) {
+            this.temp =
+              this.temp + "其他：充电时显示充电特效；\n";
+          }
+          if (
+            content.contentList[i].functionOptions2.includes("温度") &&
+            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions1.includes("充电特效")
+          ) {
+            this.temp =
+              this.temp + "其他：该表盘温度仅支持摄氏度不支持华氏度；充电时显示充电特效；\n";
+          }
+          if (
+            !content.contentList[i].functionOptions2.includes("温度") &&
+            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions1.includes("充电特效")
+          ) {
+            this.temp =
+              this.temp + "其他：心率进度满格为220，且不受最大最小心率影响；充电时显示充电特效；\n";
+          }
+          if (
+            content.contentList[i].functionOptions2.includes("温度") &&
+            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions1.includes("充电特效")
+          ) {
+            this.temp =
+              this.temp + "其他：该表盘温度仅支持摄氏度不支持华氏度；心率进度满格为220，且不受最大最小心率影响；\n";
           }
         }
         // 设计师信息
