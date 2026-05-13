@@ -1513,7 +1513,7 @@ export default {
               "；\n";
           }
           if (content.contentList[i].functionOptions4.includes("时间段")) {
-            this.temp = this.temp + "根据时间段进行换图功能，";
+            this.temp = this.temp + "根据时间段进行换图，";
             for (
               let o = 0;
               o < content.contentList[i].changeRulesTime.length;
@@ -1644,7 +1644,7 @@ export default {
           }
           if (content.contentList[i].functionOptions4.includes("自定义图标跳转")) {
             this.temp =
-              this.temp + "长按表盘可切换自定义跳转图标" + "；\n";
+              this.temp + "长按表盘进入编辑界面可切换跳转图标" + "；\n";
           }
         }
         // 功能介绍模块
