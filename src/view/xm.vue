@@ -1642,7 +1642,7 @@ export default {
             this.temp =
               this.temp + "根据不同天气感知变换场景图片，共11张图片" + "；\n";
           }
-          if (content.contentList[i].functionOptions4.includes("自定义图标跳转")) {
+          if (content.contentList[i].functionOptions4.includes("自定义图标")) {
             this.temp =
               this.temp + "长按表盘进入编辑界面可切换跳转图标" + "；\n";
           }
