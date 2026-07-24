@@ -221,6 +221,8 @@
             v-model="TXTForm.functionOptions4"
             @change="setChange(TXTForm)"
           >
+            <el-checkbox label="局部相册" name="partial_album"></el-checkbox>
+            <el-checkbox label="全局相册" name="global_album"></el-checkbox>
             <el-checkbox label="长按编辑" name="user_change"></el-checkbox>
             <el-checkbox label="时间段" name="time_change"></el-checkbox>
             <el-checkbox label="压力" name="pressure_change"></el-checkbox>
@@ -739,6 +741,8 @@
               v-model="item.functionOptions4"
               @change="setChange(item)"
             >
+              <el-checkbox label="局部相册" name="partial_album"></el-checkbox>
+              <el-checkbox label="全局相册" name="global_album"></el-checkbox>
               <el-checkbox label="长按编辑" name="user_change"></el-checkbox>
               <el-checkbox label="时间段" name="time_change"></el-checkbox>
               <el-checkbox label="压力" name="pressure_change"></el-checkbox>
@@ -1642,6 +1646,14 @@ export default {
             this.temp =
               this.temp + "根据不同天气感知变换场景图片，共11张图片" + "；\n";
           }
+          if (content.contentList[i].functionOptions4.includes("局部相册")) {
+            this.temp =
+              this.temp + "部分相册自定义，app端可进行部分相册背景的编辑" + "；\n";
+          }
+          if (content.contentList[i].functionOptions4.includes("全局相册")) {
+            this.temp =
+              this.temp + "全屏相册自定义，app端可进行全屏相册背景的编辑" + "；\n";
+          }
           if (content.contentList[i].functionOptions4.includes("自定义图标")) {
             this.temp =
               this.temp + "长按表盘进入编辑界面可切换跳转图标" + "；\n";
@@ -1697,7 +1709,7 @@ export default {
           // 功能介绍---其他
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions2.includes("心率进度条") &&
             content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
@@ -1706,7 +1718,7 @@ export default {
           }
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions2.includes("心率进度条") &&
             !content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
@@ -1714,7 +1726,7 @@ export default {
           }
           if (
             !content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions2.includes("心率进度条") &&
             !content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
@@ -1722,35 +1734,37 @@ export default {
           }
           if (
             !content.contentList[i].functionOptions2.includes("温度") &&
-            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions2.includes("心率进度条") &&
             content.contentList[i].functionOptions1.includes("充电特效")
           ) {
-            this.temp =
-              this.temp + "其他：充电时显示充电特效；\n";
+            this.temp = this.temp + "其他：充电时显示充电特效；\n";
           }
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            !content.contentList[i].functionOptions2.includes("心率进度条")&&
+            !content.contentList[i].functionOptions2.includes("心率进度条") &&
             content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
-              this.temp + "其他：该表盘温度仅支持摄氏度不支持华氏度；充电时显示充电特效；\n";
+              this.temp +
+              "其他：该表盘温度仅支持摄氏度不支持华氏度；充电时显示充电特效；\n";
           }
           if (
             !content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions2.includes("心率进度条") &&
             content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
-              this.temp + "其他：心率进度满格为220，且不受最大最小心率影响；充电时显示充电特效；\n";
+              this.temp +
+              "其他：心率进度满格为220，且不受最大最小心率影响；充电时显示充电特效；\n";
           }
           if (
             content.contentList[i].functionOptions2.includes("温度") &&
-            content.contentList[i].functionOptions2.includes("心率进度条")&&
+            content.contentList[i].functionOptions2.includes("心率进度条") &&
             !content.contentList[i].functionOptions1.includes("充电特效")
           ) {
             this.temp =
-              this.temp + "其他：该表盘温度仅支持摄氏度不支持华氏度；心率进度满格为220，且不受最大最小心率影响；\n";
+              this.temp +
+              "其他：该表盘温度仅支持摄氏度不支持华氏度；心率进度满格为220，且不受最大最小心率影响；\n";
           }
         }
         // 设计师信息
@@ -1763,7 +1777,7 @@ export default {
         this.temp = this.temp + "\n\n";
         // if (
         //   this.temp.length -
-        //     content.contentList[i].size.length - 
+        //     content.contentList[i].size.length -
         //     content.contentList[i].dialName.length -
         //     9 >
         //   250
